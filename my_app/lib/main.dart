@@ -32,7 +32,8 @@ class TodoScreen extends StatefulWidget {
 class _TodoScreenState extends State<TodoScreen> {
   final TextEditingController _controller = TextEditingController();
   final List<Map<String, dynamic>> _todos = [];
-  final String apiUrl = 'http://172.20.10.3:5000/api/tasks';
+  final String apiUrl = 'https://reddy-db2z.onrender.com/api/tasks';  // Ensure this is correct
+
 
   @override
   void initState() {
