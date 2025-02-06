@@ -132,7 +132,7 @@ class _TodoScreenState extends State<TodoScreen> {
         title: Text('To-Do App'),
         backgroundColor: Colors.yellow[400],
       ),
-      backgroundColor: Colors.yellow[200],
+      backgroundColor: Colors.blue[200],
       body: Column(
         children: [
           Padding(
