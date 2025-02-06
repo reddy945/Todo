@@ -10,11 +10,12 @@ app.use(cors({
   allowedHeaders: ['Content-Type']
 }));
 
+const PORT = process.env.PORT || 5000;
 
-const PORT = 5000;
+// Update MongoDB connection string to use environment variable
+const mongoURI = process.env.MONGO_URI || 'mongodb+srv://Reddyxr:6y7XLhP6aUs4fJlB@todoproject.u65sc.mongodb.net/?retryWrites=true&w=majority&appName=ToDoProject'; // fallback to local if no env var is set
 
-
-mongoose.connect('mongodb://127.0.0.1:27017/todoapp')
+mongoose.connect(mongoURI)
   .then(() => {
     console.log('Connected to MongoDB');
   })
@@ -30,7 +31,6 @@ const taskSchema = new mongoose.Schema({
 
 const Task = mongoose.model('Task', taskSchema);
 
-
 app.get('/api/tasks', async (req, res) => {
   try {
     const tasks = await Task.find();
@@ -40,7 +40,6 @@ app.get('/api/tasks', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch tasks' });
   }
 });
-
 
 app.post('/api/tasks', async (req, res) => {
   const { title } = req.body;
@@ -79,7 +78,6 @@ app.put('/api/tasks/:id', async (req, res) => {
   }
 });
 
-
 app.delete('/api/tasks/:id', async (req, res) => {
   const { id } = req.params;
 
@@ -97,7 +95,6 @@ app.delete('/api/tasks/:id', async (req, res) => {
   }
 });
 
-
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is running on http://172.20.10.3:${PORT}/api/tasks`);
+  console.log(`Server is running on http://localhost:${PORT}/api/tasks`);
 });
