@@ -58,6 +58,7 @@ class _TaskScreenState extends State<TaskScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
+<<<<<<< HEAD
         backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
@@ -68,6 +69,51 @@ class _TaskScreenState extends State<TaskScreen> {
           IconButton(
             icon: Icon(Icons.refresh, color: Colors.black),
             onPressed: fetchTasks, // Reload tasks
+=======
+        title: Text('To-Do App'),
+        backgroundColor: Colors.yellow[400],
+      ),
+      backgroundColor: Colors.blue[200],
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                      controller: _controller,
+                      decoration: InputDecoration(hintText: 'Enter a task')),
+                ),
+                IconButton(onPressed: _addTask, icon: Icon(Icons.add))
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _todos.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  leading: Checkbox(
+                    value: _todos[index]['completed'],
+                    onChanged: (_) => _toggleTaskCompletion(index),
+                  ),
+                  title: Text(
+                    _todos[index]['title'],
+                    style: TextStyle(
+                      decoration: _todos[index]['completed']
+                          ? TextDecoration.lineThrough
+                          : null,
+                    ),
+                  ),
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () => _deleteTask(index),
+                  ),
+                );
+              },
+            ),
+>>>>>>> 150071e3df56c85ef76e9c75b3c07cc0ce4c0490
           ),
         ],
       ),
