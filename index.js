@@ -144,7 +144,7 @@ app.delete("/tasks/:id", authenticate, async (req, res) => {
 });
 
 // Start the Server
-app.listen(PORT, () => {
+app.listen(PORT,'0.0.0.0', () => {
   console.log(`Server running on https://todo-o8cx.onrender.com/api/tasks`);
   console.log(`Server runing on https://todo-o8cx.onrender.com/api/users/register`);
   console.log(`Server runing on https://todo-o8cx.onrender.com/api/users/login`);
