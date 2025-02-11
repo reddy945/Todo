@@ -36,7 +36,7 @@ const User = mongoose.model("User", userSchema);
 const Task = mongoose.model("Task", taskSchema);
 
 // User Registration
-app.post("api/users/register", async (req, res) => {
+app.post("/api/users/register", async (req, res) => {
   const { name, email, mobile, password } = req.body;
 
   if (!name || !password || (!email && !mobile)) {
@@ -61,7 +61,7 @@ app.post("api/users/register", async (req, res) => {
 });
 
 // User Login
-app.post("api/users/login", async (req, res) => {
+app.post("/api/users/login", async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
