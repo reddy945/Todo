@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const app = express();
@@ -13,7 +13,7 @@ const JWT_SECRET = "your_jwt_secret"; // Update this secret to a more secure val
 app.use(cors());
 app.use(bodyParser.json());
 
-mongoose.connect("mongodb+srv://Reddyxr:6y7XLhP6aUs4fJlB@reddy.u65sc.mongodb.net/?retryWrites=true&w=majority&appName=Reddy'")
+mongoose.connect("mongodb+srv://Reddyxr:6y7XLhP6aUs4fJlB@reddy.u65sc.mongodb.net/?retryWrites=true&w=majority&appName=Reddy")
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("Failed to connect to MongoDB", err));
 
@@ -36,7 +36,7 @@ const User = mongoose.model("User", userSchema);
 const Task = mongoose.model("Task", taskSchema);
 
 // User Registration
-app.post("https://todo-green-three.vercel.app/api/users/register", async (req, res) => {
+app.post("https://todo-o8cx.onrender.com/api/users/register", async (req, res) => {
   const { name, email, mobile, password } = req.body;
 
   if (!name || !password || (!email && !mobile)) {
@@ -146,7 +146,7 @@ app.delete("/tasks/:id", authenticate, async (req, res) => {
 // Start the Server
 app.listen(PORT, () => {
   console.log(`Server running on https://todo-o8cx.onrender.com/api/tasks`);
-  console.log(`Server runing on https://todo-green-three.vercel.app/api/users/register`);
+  console.log(`Server runing on https://todo-o8cx.onrender.com/api/users/register`);
   console.log(`Server runing on https://todo-o8cx.onrender.com/api/users/login`);
   console.log(`Server runing on https://todo-o8cx.onrender.com/api/users/me`);
 });
