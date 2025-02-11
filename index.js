@@ -36,7 +36,7 @@ const User = mongoose.model("User", userSchema);
 const Task = mongoose.model("Task", taskSchema);
 
 // User Registration
-app.post("https://reddy-db2z.onrender.com/api/users/register", async (req, res) => {
+app.post("https://todo-green-three.vercel.app/api/users/register", async (req, res) => {
   const { name, email, mobile, password } = req.body;
 
   if (!name || !password || (!email && !mobile)) {
@@ -61,7 +61,7 @@ app.post("https://reddy-db2z.onrender.com/api/users/register", async (req, res) 
 });
 
 // User Login
-app.post("https://reddy-db2z.onrender.com/api/users/login", async (req, res) => {
+app.post("https://todo-o8cx.onrender.com/api/users/login", async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -145,8 +145,8 @@ app.delete("/tasks/:id", authenticate, async (req, res) => {
 
 // Start the Server
 app.listen(PORT, () => {
-  console.log(`Server running on https://reddy-db2z.onrender.com/api/tasks`);
-  console.log(`Server runing on https://reddy-db2z.onrender.com/api/users/register`);
-  console.log(`Server runing on https://reddy-db2z.onrender.com/api/users/login`);
-  console.log(`Server runing on https://reddy-db2z.onrender.com/api/users/me`);
+  console.log(`Server running on https://todo-o8cx.onrender.com/api/tasks`);
+  console.log(`Server runing on https://todo-green-three.vercel.app/api/users/register`);
+  console.log(`Server runing on https://todo-o8cx.onrender.com/api/users/login`);
+  console.log(`Server runing on https://todo-o8cx.onrender.com/api/users/me`);
 });
