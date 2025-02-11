@@ -35,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
 
     if (email.isNotEmpty && password.isNotEmpty) {
       final response = await http.post(
-        Uri.parse('https://reddy-db2z.onrender.com/api/users/login'),
+        Uri.parse('https://todo-o8cx.onrender.com/api/users/login'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'email': email, 'password': password}),
       );
@@ -115,7 +115,8 @@ class _LoginPageState extends State<LoginPage> {
                   MaterialPageRoute(builder: (context) => SignUpPage()),
                 );
               },
-              child: Text('Don\'t have an account? Sign Up', style: TextStyle(color: Colors.green)),
+              child: Text('Don\'t have an account? Sign Up',
+                  style: TextStyle(color: Colors.green)),
             ),
           ],
         ),
@@ -141,7 +142,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
     if (name.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
       final response = await http.post(
-        Uri.parse('https://reddy-db2z.onrender.com/api/users/register'),
+        Uri.parse('https://todo-o8cx.onrender.com/api/users/register'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'name': name, 'email': email, 'password': password}),
       );
@@ -245,7 +246,7 @@ class _TaskScreenState extends State<TaskScreen> {
 
   Future<void> _fetchTasks() async {
     final response = await http.get(
-      Uri.parse('https://reddy-db2z.onrender.com/api/tasks'),
+      Uri.parse('https://todo-o8cx.onrender.com/api/tasks'),
       headers: {'Authorization': 'Bearer ${widget.token}'},
     );
 
@@ -258,7 +259,7 @@ class _TaskScreenState extends State<TaskScreen> {
 
   Future<void> _fetchUserProfile() async {
     final response = await http.get(
-      Uri.parse('https://reddy-db2z.onrender.com/api/users/me'),
+      Uri.parse('https://todo-o8cx.onrender.com/api/users/me'),
       headers: {'Authorization': 'Bearer ${widget.token}'},
     );
 
@@ -293,8 +294,10 @@ class _TaskScreenState extends State<TaskScreen> {
         itemCount: tasks.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(tasks[index]['title'], style: TextStyle(color: Colors.white)),
-            subtitle: Text(tasks[index]['description'], style: TextStyle(color: Colors.white54)),
+            title: Text(tasks[index]['title'],
+                style: TextStyle(color: Colors.white)),
+            subtitle: Text(tasks[index]['description'],
+                style: TextStyle(color: Colors.white54)),
           );
         },
       ),
@@ -319,9 +322,11 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Name: ${userProfile['name']}', style: TextStyle(color: Colors.white, fontSize: 18)),
+            Text('Name: ${userProfile['name']}',
+                style: TextStyle(color: Colors.white, fontSize: 18)),
             SizedBox(height: 10),
-            Text('Email: ${userProfile['email']}', style: TextStyle(color: Colors.white, fontSize: 18)),
+            Text('Email: ${userProfile['email']}',
+                style: TextStyle(color: Colors.white, fontSize: 18)),
           ],
         ),
       ),
