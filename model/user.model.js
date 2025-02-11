@@ -1,5 +1,5 @@
 const db = require('../config/db');
-const bcrypt = require('bcryptjs');
+const bcryptjs = require("bcryptjs");
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
@@ -29,8 +29,8 @@ userSchema.pre("save",async function(){
         return
     }
     try{
-        const salt = await bcrypt.genSalt(10);
-        const hash = await bcrypt.hash(user.password,salt);
+        const salt = await bcryptjs.genSalt(10);
+        const hash = await bcryptjs.hash(user.password,salt);
 
         user.password = hash;
     }catch(err){
@@ -44,7 +44,7 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
     try {
         console.log('----------------no password',this.password);
         // @ts-ignore
-        const isMatch = await bcrypt.compare(candidatePassword, this.password);
+        const isMatch = await bcryptjs.compare(candidatePassword, this.password);
         return isMatch;
     } catch (error) {
         throw error;
