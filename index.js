@@ -151,7 +151,7 @@ app.delete("/tasks/:id", authenticate, async (req, res) => {
 
 // Start the Server
 app.listen(PORT, "0.0.0.0", () => {
-  const renderURL = "https://todo-o8cx.onrender.com";
+  const renderURL = "https://todo-ntim.onrender.com";
   console.log(`Server running on ${renderURL}/tasks`);
   console.log(`Server running on ${renderURL}/api/users/register`);
   console.log(`Server running on ${renderURL}/api/users/login`);
