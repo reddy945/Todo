@@ -4,16 +4,19 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
+require("dotenv").config(); // Load environment variables from .env file
 const app = express();
-const PORT = 5000;
-const JWT_SECRET = "your_jwt_secret"; // Update this secret to a more secure value in production
+const PORT = process.env.PORT || 5000; // Use PORT from .env or default to 5000
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
-mongoose.connect("mongodb+srv://Reddyxr:6y7XLhP6aUs4fJlB@reddy.u65sc.mongodb.net/?retryWrites=true&w=majority&appName=Reddy")
+// Connect to MongoDB
+mongoose.set("strictQuery", false); // Suppress deprecation warning
+mongoose
+  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("Failed to connect to MongoDB", err));
 
@@ -43,7 +46,7 @@ app.post("/api/users/register", async (req, res) => {
     return res.status(400).json({ error: "All fields are required" });
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(password, 12); // Updated saltRounds to 12 for better security
 
   try {
     const user = new User({
@@ -56,6 +59,7 @@ app.post("/api/users/register", async (req, res) => {
     await user.save();
     res.status(201).json({ message: "User registered successfully" });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Error registering user" });
   }
 });
@@ -68,18 +72,23 @@ app.post("/api/users/login", async (req, res) => {
     return res.status(400).json({ error: "Email and password are required" });
   }
 
-  const user = await User.findOne({ email });
-  if (!user) {
-    return res.status(404).json({ error: "User not found" });
-  }
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
 
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) {
-    return res.status(401).json({ error: "Invalid credentials" });
-  }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
 
-  const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
-  res.status(200).json({ message: "Login successful", token });
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
+    res.status(200).json({ message: "Login successful", token });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error during login" });
+  }
 });
 
 // Middleware for Authentication
@@ -117,6 +126,7 @@ app.post("/tasks", authenticate, async (req, res) => {
     await task.save();
     res.status(201).json({ message: "Task added successfully", task });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Error adding task" });
   }
 });
@@ -127,6 +137,7 @@ app.get("/tasks", authenticate, async (req, res) => {
     const tasks = await Task.find({ userId: req.userId });
     res.status(200).json(tasks);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Error fetching tasks" });
   }
 });
@@ -139,14 +150,23 @@ app.delete("/tasks/:id", authenticate, async (req, res) => {
     await Task.findByIdAndDelete(id);
     res.status(200).json({ message: "Task deleted successfully" });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Error deleting task" });
   }
 });
 
+// Get Current User (Optional)
+app.get("/api/users/me", authenticate, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select("-password");
+    res.status(200).json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error fetching user details" });
+  }
+});
+
 // Start the Server
-app.listen(PORT,'0.0.0.0', () => {
-  console.log(`Server running on https://todo-o8cx.onrender.com/api/tasks`);
-  console.log(`Server runing on https://todo-o8cx.onrender.com/api/users/register`);
-  console.log(`Server runing on https://todo-o8cx.onrender.com/api/users/login`);
-  console.log(`Server runing on https://todo-o8cx.onrender.com/api/users/me`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on https://todo-o8cx.onrender.com`);
 });
